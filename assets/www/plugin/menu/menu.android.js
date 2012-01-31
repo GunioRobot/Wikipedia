@@ -6,7 +6,7 @@
 var SimpleMenu = function()
 {
   var menuPlugin = this;
-  document.addEventListener('deviceready', function() {  
+  document.addEventListener('deviceready', function() {
     var menus = document.getElementsByTagName('menu');
     if(menus.length > 0)
     {
@@ -56,7 +56,7 @@ SimpleMenu.prototype.createMenu = function(win, fail)
   function(ex)
   {
     fail(ex);
-  }, 
+  },
   "SimpleMenu", "create", [menuString]);
 }
 
@@ -82,7 +82,7 @@ SimpleMenu.prototype.fireCallback = function(index)
   }
 }
 
-PhoneGap.addConstructor(function() 
+PhoneGap.addConstructor(function()
 {
   PhoneGap.addPlugin("SimpleMenu", new SimpleMenu());
 });

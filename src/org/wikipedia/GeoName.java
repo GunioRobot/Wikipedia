@@ -1,7 +1,7 @@
 package org.wikipedia;
 
 public class GeoName {
-	
+
 	public GeoName(String wikipediaUrl, String title, String summary,
 			double latitude, double longitude) {
 		super();
@@ -17,7 +17,7 @@ public class GeoName {
 	private String summary;
 	private double latitude;
 	private double longitude;
-	
+
 	public GeoName(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;

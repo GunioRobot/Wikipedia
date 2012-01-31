@@ -1,12 +1,12 @@
 /**
- * dom storage adapter 
- * === 
+ * dom storage adapter
+ * ===
  * - originally authored by Joseph Pecoraro
  *
- */ 
+ */
 //
 // TODO does it make sense to be chainable all over the place?
-// chainable: nuke, remove, all, get, save, all    
+// chainable: nuke, remove, all, get, save, all
 // not chainable: valid, keys
 //
 Lawnchair.adapter('dom', (function() {
@@ -41,31 +41,31 @@ Lawnchair.adapter('dom', (function() {
             find: function (key) {
                 var a = this.all()
                 for (var i = 0, l = a.length; i < l; i++) {
-                    if (key === a[i]) return i 
+                    if (key === a[i]) return i
                 }
                 return false
             }
         }
     }
-    
-    // adapter api 
+
+    // adapter api
     return {
-    
-        // ensure we are in an env with localStorage 
+
+        // ensure we are in an env with localStorage
         valid: function () {
-            return !!storage 
+            return !!storage
         },
 
         init: function (options, callback) {
             this.indexer = indexer(this.name)
-            if (callback) this.fn(this.name, callback).call(this, this)  
+            if (callback) this.fn(this.name, callback).call(this, this)
         },
-        
+
         save: function (obj, callback) {
             var key = obj.key ? this.name + '.' + obj.key : this.name + '.' + this.uuid()
             // if the key is not in the index push it on
             if (this.indexer.find(key) === false) this.indexer.add(key)
-            // now we kil the key and use it in the store colleciton    
+            // now we kil the key and use it in the store colleciton
             delete obj.key;
             storage.setItem(key, JSON.stringify(obj))
             if (callback) {
@@ -86,17 +86,17 @@ Lawnchair.adapter('dom', (function() {
             if (callback) this.lambda(callback).call(this, saved)
             return this
         },
-       
+
         // accepts [options], callback
         keys: function(callback) {
-            if (callback) { 
+            if (callback) {
                 var name = this.name
                 ,   keys = this.indexer.all().map(function(r){ return r.replace(name + '.', '') })
                 this.fn('keys', callback).call(this, keys)
             }
             return this // TODO options for limit/offset, return promise
         },
-        
+
         get: function (key, callback) {
             if (this.isArray(key)) {
                 var r = []
@@ -106,7 +106,7 @@ Lawnchair.adapter('dom', (function() {
                     if (obj) {
                         obj.key = k
                         r.push(obj)
-                    } 
+                    }
                 }
                 if (callback) this.lambda(callback).call(this, r)
             } else {
@@ -133,7 +133,7 @@ Lawnchair.adapter('dom', (function() {
             if (callback) this.fn(this.name, callback).call(this, r)
             return this
         },
-        
+
         remove: function (keyOrObj, callback) {
             var key = this.name + '.' + (typeof keyOrObj === 'string' ? keyOrObj : keyOrObj.key)
             this.indexer.del(key)
@@ -141,7 +141,7 @@ Lawnchair.adapter('dom', (function() {
             if (callback) this.lambda(callback).call(this)
             return this
         },
-        
+
         nuke: function (callback) {
             this.all(function(r) {
                 for (var i = 0, l = r.length; i < l; i++) {
@@ -149,6 +149,6 @@ Lawnchair.adapter('dom', (function() {
                 }
                 if (callback) this.lambda(callback).call(this)
             })
-            return this 
+            return this
         }
 }})());

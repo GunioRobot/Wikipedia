@@ -1,10 +1,10 @@
 // I would mark my relationship with javascript as 'its complicated'
 Lawnchair.plugin((function(){
-    
-    // methods we want to augment with before/after callback registery capability 
+
+    // methods we want to augment with before/after callback registery capability
     var methods = 'save batch get remove nuke'.split(' ')
     ,   registry = {before:{}, after:{}}
-    
+
     // fill in the blanks
     for (var i = 0, l = methods.length; i < l; i++) {
         registry.before[methods[i]] = []
@@ -12,8 +12,8 @@ Lawnchair.plugin((function(){
     }
 
     return {
-    // start of module 
-        
+    // start of module
+
         // roll thru each method we with to augment
         init: function () {
             for (var i = 0, l = methods.length; i < l; i++) {
@@ -27,15 +27,15 @@ Lawnchair.plugin((function(){
             // overwrite the orig method
             this[methodName] = function() {
                 var args              = [].slice.call(arguments)
-                ,   beforeObj         = args[0] 
+                ,   beforeObj         = args[0]
                 ,   oldCallback       = args[args.length - 1]
                 ,   overwroteCallback = false
-                
+
                 // call before with obj
                 this.fire('before', methodName, beforeObj)
 
                 if (typeof oldCallback === 'function') {
-                    // overwrite final callback with after method injection 
+                    // overwrite final callback with after method injection
                     args[args.length - 1] = function(record) {
                         oldCallback.call(self, record)
                         self.fire('after', methodName, record)
@@ -47,12 +47,12 @@ Lawnchair.plugin((function(){
                 oldy.apply(self, args)
 
                 // if there was no callback to override for after we invoke here
-                if (!overwroteCallback) 
+                if (!overwroteCallback)
                     self.fire('after', methodName, beforeObj)
             }
         },
 
-        // TODO definitely make private method 
+        // TODO definitely make private method
         // for invoking callbacks
         fire: function (when, methodName, record) {
             var callbacks = registry[when][methodName]
@@ -75,11 +75,11 @@ Lawnchair.plugin((function(){
             registry.before[methodName].push(callback)
         },
 
-        // register after callback for methodName 
+        // register after callback for methodName
         after: function (methodName, callback) {
             registry.after[methodName].push(callback)
         }
-    
+
     // end module
     }
 })())

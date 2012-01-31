@@ -31,7 +31,7 @@ public class AppMenu extends Plugin {
 	private Menu appMenu;
 	private ArrayList <MenuInfo> items;
 	private boolean menuChanged = false;
-		
+
 	@Override
 	public PluginResult execute(String action, JSONArray args, String callbackId) {
 		// TODO Auto-generated method stub
@@ -52,14 +52,14 @@ public class AppMenu extends Plugin {
 			return new PluginResult(PluginResult.Status.INVALID_ACTION);
 		}
 	}
-	
+
 	private PluginResult refresh(JSONArray args) {
 		// TODO Auto-generated method stub
 		this.menuChanged = true;
 		return new PluginResult(PluginResult.Status.OK);
 	}
 
-	private PluginResult createMenu(JSONArray args)	
+	private PluginResult createMenu(JSONArray args)
 	{
 		PluginResult goodResult = updateMenu(args);
 		if(android.os.Build.VERSION.RELEASE.startsWith("3."))
@@ -70,12 +70,12 @@ public class AppMenu extends Plugin {
 		//We should do something here if Honeycomb fails!
 		return goodResult;
 	}
-	
+
 	private PluginResult updateMenu(JSONArray args)
 	{
 		//Toss out all the items, and create a new list
 		items = new ArrayList<MenuInfo>();
-		
+
 		try {
 			String menu = args.getString(0);
 			JSONArray menuArr = new JSONArray(menu);
@@ -87,11 +87,11 @@ public class AppMenu extends Plugin {
 			}
 			return new PluginResult(PluginResult.Status.OK);
 		} catch (JSONException e) {
-			//e.printStackTrace();			
+			//e.printStackTrace();
 			return new PluginResult(PluginResult.Status.JSON_EXCEPTION);
-		} 
+		}
 	}
-	
+
 	private MenuInfo parseInfo(JSONObject mObject) throws JSONException
 	{
 		MenuInfo info = new MenuInfo();
@@ -100,7 +100,7 @@ public class AppMenu extends Plugin {
 		if(mObject.has("icon"))
 		{
 			String tmp_uri = mObject.getString("icon");
-			//I don't expect this to work at all	
+			//I don't expect this to work at all
 			try {
 				info.icon = getIcon(tmp_uri);
 			} catch (IOException e) {
@@ -117,9 +117,9 @@ public class AppMenu extends Plugin {
 			Log.d("AppMenuPlugin", "DISABLED");
 			info.disabled = false;
 		}
-		return info;		
+		return info;
 	}
-	
+
 	private Drawable getIcon(String tmp_uri) throws IOException {
 		AssetManager mgr = this.ctx.getAssets();
 		String fileName = "www/" + tmp_uri;
@@ -127,15 +127,15 @@ public class AppMenu extends Plugin {
 		Drawable icon = Drawable.createFromStream(image, tmp_uri);
 		return icon;
 	}
-	
+
 	public boolean isMenuChanged()
 	{
 		return menuChanged;
 	}
-	
+
     /**
      * Call to build the menu
-     * 
+     *
      * @param menu
      * @return
      */
@@ -144,7 +144,7 @@ public class AppMenu extends Plugin {
     	appMenu = menu;
     	if(appMenu.size() > 0)
     		appMenu.clear();
-    	ListIterator<MenuInfo> iter = items.listIterator();    	
+    	ListIterator<MenuInfo> iter = items.listIterator();
     	while(iter.hasNext())
     	{
     		int itemId = iter.nextIndex();
@@ -160,10 +160,10 @@ public class AppMenu extends Plugin {
     			currentItem.setEnabled(false);
     		}
     	}
-    	menuChanged = false;    	
+    	menuChanged = false;
     	return true;
     }
-    
+
     public boolean buildHoneycombMenu(final Menu menu)
     {
     	final AppMenu that = this;
@@ -176,15 +176,15 @@ public class AppMenu extends Plugin {
     	});
     	return true;
     }
-    
+
     /**
      * Call your receive when menuItem is selected.
-     * 
+     *
      * @param item
      * @return
      */
     public boolean onMenuItemSelected(MenuItem item)
-    {    
+    {
     	//This is where everything tends to fall down, we should instead something else
     	webView.loadUrl("javascript:window.plugins.SimpleMenu.fireCallback(" + item.getItemId() + ")");
     	return true;

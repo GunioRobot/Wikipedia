@@ -434,14 +434,14 @@ document.addEventListener = function(evt, handler, capture) {
         if (e === 'backbutton') {
             PhoneGap.exec(null, null, "App", "overrideBackbutton", [true]);
         }
-        
+
         // If subscribing to an event that is handled by a plugin
         else if (typeof PhoneGap.documentEventHandler[e] !== "undefined") {
             if (PhoneGap.documentEventHandler[e](e, handler, true)) {
                 return; // Stop default behavior
             }
         }
-        
+
         PhoneGap.m_document_addEventListener.call(document, evt, handler, capture);
     }
 };
@@ -455,14 +455,14 @@ document.addEventListener = function(evt, handler, capture) {
  */
 window.addEventListener = function(evt, handler, capture) {
     var e = evt.toLowerCase();
-        
+
     // If subscribing to an event that is handled by a plugin
     if (typeof PhoneGap.windowEventHandler[e] !== "undefined") {
         if (PhoneGap.windowEventHandler[e](e, handler, true)) {
             return; // Stop default behavior
         }
     }
-        
+
     PhoneGap.m_window_addEventListener.call(window, evt, handler, capture);
 };
 
@@ -619,10 +619,10 @@ PhoneGap.stringify = function(args) {
  */
 PhoneGap.clone = function(obj) {
     var i, retVal;
-    if(!obj) { 
+    if(!obj) {
         return obj;
     }
-    
+
     if(obj instanceof Array){
         retVal = [];
         for(i = 0; i < obj.length; ++i){
@@ -630,19 +630,19 @@ PhoneGap.clone = function(obj) {
         }
         return retVal;
     }
-    
+
     if (typeof obj === "function") {
         return obj;
     }
-    
+
     if(!(obj instanceof Object)){
         return obj;
     }
-    
+
     if (obj instanceof Date) {
         return obj;
     }
-    
+
     retVal = {};
     for(i in obj){
         if(!(i in retVal) || retVal[i] !== obj[i]) {
@@ -1267,12 +1267,12 @@ App.prototype.exitApp = function() {
 
 /**
  * Add entry to approved list of URLs (whitelist) that will be loaded into PhoneGap container instead of default browser.
- * 
+ *
  * @param origin		URL regular expression to allow
  * @param subdomains	T=include all subdomains under origin
  */
 App.prototype.addWhiteListEntry = function(origin, subdomains) {
-	return PhoneGap.exec(null, null, "App", "addWhiteListEntry", [origin, subdomains]);	
+	return PhoneGap.exec(null, null, "App", "addWhiteListEntry", [origin, subdomains]);
 };
 
 PhoneGap.addConstructor(function() {
@@ -1307,7 +1307,7 @@ var Battery = function() {
 
 /**
  * Registers as an event producer for battery events.
- * 
+ *
  * @param {Object} eventType
  * @param {Object} handler
  * @param {Object} add
@@ -1319,7 +1319,7 @@ Battery.prototype.eventHandler = function(eventType, handler, add) {
         if (me._batteryListener.length === 0 && me._lowListener.length === 0 && me._criticalListener.length === 0) {
             PhoneGap.exec(me._status, me._error, "Battery", "start", []);
         }
-        
+
         // Register the event listener in the proper array
         if (eventType === "batterystatus") {
             var pos = me._batteryListener.indexOf(handler);
@@ -1342,20 +1342,20 @@ Battery.prototype.eventHandler = function(eventType, handler, add) {
         if (eventType === "batterystatus") {
             var pos = me._batteryListener.indexOf(handler);
             if (pos > -1) {
-                me._batteryListener.splice(pos, 1);        
+                me._batteryListener.splice(pos, 1);
             }
         } else if (eventType === "batterylow") {
             var pos = me._lowListener.indexOf(handler);
             if (pos > -1) {
-                me._lowListener.splice(pos, 1);        
+                me._lowListener.splice(pos, 1);
             }
         } else if (eventType === "batterycritical") {
             var pos = me._criticalListener.indexOf(handler);
             if (pos > -1) {
-                me._criticalListener.splice(pos, 1);        
+                me._criticalListener.splice(pos, 1);
             }
         }
-        
+
         // If there are no more registered event listeners stop the battery listener on native side.
         if (me._batteryListener.length === 0 && me._lowListener.length === 0 && me._criticalListener.length === 0) {
             PhoneGap.exec(null, null, "Battery", "stop", []);
@@ -1365,7 +1365,7 @@ Battery.prototype.eventHandler = function(eventType, handler, add) {
 
 /**
  * Callback for battery status
- * 
+ *
  * @param {Object} info			keys: level, isPlugged
  */
 Battery.prototype._status = function(info) {
@@ -1386,7 +1386,7 @@ Battery.prototype._status = function(info) {
 			}
 		}
 		me._level = info.level;
-		me._isPlugged = info.isPlugged;	
+		me._isPlugged = info.isPlugged;
 	}
 };
 
@@ -1513,7 +1513,7 @@ Camera.prototype.getPicture = function(successCallback, errorCallback, options) 
         console.log("Camera Error: errorCallback is not a function");
         return;
     }
-    
+
     if (options === null || typeof options === "undefined") {
         options = {};
     }
@@ -1537,7 +1537,7 @@ Camera.prototype.getPicture = function(successCallback, errorCallback, options) 
     }
     if (options.targetWidth === null || typeof options.targetWidth === "undefined") {
         options.targetWidth = -1;
-    } 
+    }
     else if (typeof options.targetWidth == "string") {
         var width = new Number(options.targetWidth);
         if (isNaN(width) === false) {
@@ -1546,14 +1546,14 @@ Camera.prototype.getPicture = function(successCallback, errorCallback, options) 
     }
     if (options.targetHeight === null || typeof options.targetHeight === "undefined") {
         options.targetHeight = -1;
-    } 
+    }
     else if (typeof options.targetHeight == "string") {
         var height = new Number(options.targetHeight);
         if (isNaN(height) === false) {
             options.targetHeight = height.valueOf();
         }
     }
-    
+
     PhoneGap.exec(successCallback, errorCallback, "Camera", "takePicture", [options]);
 };
 
@@ -1573,7 +1573,7 @@ PhoneGap.addConstructor(function() {
 
 if (!PhoneGap.hasResource("capture")) {
 PhoneGap.addResource("capture");
-	
+
 /**
  * Represents a single file.
  *
@@ -1701,12 +1701,12 @@ Capture.prototype.captureVideo = function(successCallback, errorCallback, option
  * Encapsulates a set of parameters that the capture device supports.
  */
 var ConfigurationData = function(){
-	// The ASCII-encoded string in lower case representing the media type. 
+	// The ASCII-encoded string in lower case representing the media type.
 	this.type = null;
-	// The height attribute represents height of the image or video in pixels. 
-	// In the case of a sound clip this attribute has value 0. 
+	// The height attribute represents height of the image or video in pixels.
+	// In the case of a sound clip this attribute has value 0.
 	this.height = 0;
-	// The width attribute represents width of the image or video in pixels. 
+	// The width attribute represents width of the image or video in pixels.
 	// In the case of a sound clip this attribute has value 0
 	this.width = 0;
 };
@@ -2145,7 +2145,7 @@ Contacts.prototype.find = function(fields, successCB, errorCB, options) {
             errorCB({"code": ContactError.INVALID_ARGUMENT_ERROR});
         }
     } else {
-        PhoneGap.exec(successCB, errorCB, "Contacts", "search", [fields, options]);        
+        PhoneGap.exec(successCB, errorCB, "Contacts", "search", [fields, options]);
     }
 };
 
@@ -3185,7 +3185,7 @@ FileEntry.prototype.toURI = function(mimeType) {
 FileEntry.prototype.createWriter = function(successCallback, errorCallback) {
     this.file(function(filePointer) {
         var writer = new FileWriter(filePointer);
-    
+
         if (writer.fileName === null || writer.fileName === "") {
             if (typeof errorCallback == "function") {
                 errorCallback({
@@ -3193,10 +3193,10 @@ FileEntry.prototype.createWriter = function(successCallback, errorCallback) {
                 });
             }
         }
-    
+
         if (typeof successCallback == "function") {
             successCallback(writer);
-        }       
+        }
     }, errorCallback);
 };
 
@@ -3890,12 +3890,12 @@ var Connection = function() {
                 me.type = type;
                 PhoneGap.fireDocumentEvent('online');
             }
-            
+
             // should only fire this once
             if (me._firstRun) {
                 me._firstRun = false;
                 PhoneGap.onPhoneGapConnectionReady.fire();
-            }            
+            }
         },
         function(e) {
             // If we can't get the network info we should still tell PhoneGap
@@ -3903,7 +3903,7 @@ var Connection = function() {
             if (me._firstRun) {
                 me._firstRun = false;
                 PhoneGap.onPhoneGapConnectionReady.fire();
-            }            
+            }
             console.log("Error initializing Network Connection: " + e);
         });
 };
@@ -4550,12 +4550,12 @@ PhoneGap.addConstructor(function() {
     } else {
         window.openDatabase_orig = window.openDatabase;
         window.openDatabase = function(name, version, desc, size){
-            // Some versions of Android will throw a SECURITY_ERR so we need 
+            // Some versions of Android will throw a SECURITY_ERR so we need
             // to catch the exception and seutp our own DB handling.
             var db = null;
             try {
                 db = window.openDatabase_orig(name, version, desc, size);
-            } 
+            }
             catch (ex) {
                 db = null;
             }
@@ -4569,7 +4569,7 @@ PhoneGap.addConstructor(function() {
             }
         }
     }
-    
+
     if (typeof window.localStorage === "undefined") {
         navigator.localStorage = window.localStorage = new CupcakeLocalStorage();
         PhoneGap.waitForInitialization("cupcakeStorage");

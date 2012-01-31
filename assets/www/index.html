@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=100%; user-scalable=no" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Wikipedia</title>
-   
-    <script type="text/javascript" charset="utf-8" src="js/lawnchair/Lawnchair.js"></script>    
+
+    <script type="text/javascript" charset="utf-8" src="js/lawnchair/Lawnchair.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/lawnchair/adapters/webkit-sqlite.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="js/zepto.min.js"></script>
@@ -15,27 +15,27 @@
     <script type="text/javascript" charset="utf-8" src="js/l10n-setup.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="js/phonegap-1.1.0.js"></script>
-    
+
     <!-- phonegap plugins -->
-    
+
     <script type="text/javascript" charset="utf-8" src="plugin/menu/menu.android.js"></script>
-    
+
     <script type="text/javascript" charset="utf-8" src="plugin/softkeyboard/softkeyboard.js"></script>
-    
+
     <!-- app logic -->
     <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/bookmarks.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/app_history.js"></script> 
-    <script type="text/javascript" charset="utf-8" src="js/search.js"></script> 
-    <script type="text/javascript" charset="utf-8" src="js/geo.js"></script> 
-    <script type="text/javascript" charset="utf-8" src="js/settings.js"></script> 
-      
-    <link rel="stylesheet" href="app.css" />  
-             
+    <script type="text/javascript" charset="utf-8" src="js/app_history.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/search.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/geo.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/settings.js"></script>
+
+    <link rel="stylesheet" href="app.css" />
+
   </head>
 
   <body onload="init();">
-    
+
   <header id="mainHeader">
     <div class="titlebar">
       <div id="wHolder"><div class="titlebarIcon" onClick="loadContent();"></div></div>
@@ -46,7 +46,7 @@
         </form>
         <div id="clearSearch" onclick="javascript:clearSearch();"></div>
 		<div class="spinner"></div>
-      </div>                  
+      </div>
     </div>
   </header>
 
@@ -59,7 +59,7 @@
 		</header>
 		<div id="bookmarksList"></div>
 	</div>
-		
+
 	<div id="history">
 		<header>
 			<div class="titlebar">
@@ -70,13 +70,13 @@
 		<div id="historyList"></div>
 		<!--
 		<div onclick="javascript:purgeHistory();">purge</div>
-		-->		
+		-->
 	</div>
-				
+
 	<div id="searchresults">
 		<div id="resultList"></div>
 	</div>
-	
+
 	<div id="settings">
 	    <!--
         <header>
@@ -84,7 +84,7 @@
                 <div class="titlebarItem">Settings</div>
                 <div class="titlebarItem closeButton" onclick="javascript:hideSettings();"></div>
             </div>
-        </header>      
+        </header>
         <div id="settingsList"></div>
         -->
         test
@@ -93,7 +93,7 @@
   <div id="content">
     <iframe id="main" frameborder="0" onload="javascript:iframeOnLoaded(this);">
     </iframe>
-  </div>  
+  </div>
 
 	<menu id="appMenu" type="context">
 		<command type="command" id="addBookmarkCmd" label="Add Bookmark" icon="image/optionAddBookmark.png" disabled="false" action="isBookmarksMaxLimit();" />
@@ -101,9 +101,9 @@
 		<command type="command" id="historyCmd" label="History" icon="image/optionViewHistory.png" disabled="false" action="getHistory();" />
 		<command type="command" id="forwardCmd" label="Forward" icon="image/optionForward.png" disabled="true" action="goForward();" />
 		<command type="command" id="nearbyCmd" label="Nearby" icon="image/optionNearMe.png" disabled="false" action="getCurrentPosition();" />
-		<command type="command" id="settingsCmd" label="Settings" icon="image/optionSettings.png" disabled="false" action="getSettings();" />	
-	</menu>	
-		
+		<command type="command" id="settingsCmd" label="Settings" icon="image/optionSettings.png" disabled="false" action="getSettings();" />
+	</menu>
+
   </body>
 
 </html>

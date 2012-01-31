@@ -14,10 +14,10 @@ public class SoftKeyBoard extends Plugin {
     public void showKeyBoard() {
         InputMethodManager mgr = (InputMethodManager) this.ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.showSoftInput(webView, InputMethodManager.SHOW_IMPLICIT);
-        
-        ((InputMethodManager) this.ctx.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(webView, 0); 
+
+        ((InputMethodManager) this.ctx.getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(webView, 0);
     }
-    
+
     public void hideKeyBoard() {
         InputMethodManager mgr = (InputMethodManager) this.ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(webView.getWindowToken(), 0);
@@ -27,7 +27,7 @@ public class SoftKeyBoard extends Plugin {
 		if (action.equals("show")) {
             this.showKeyBoard();
 			return new PluginResult(PluginResult.Status.OK, "done");
-		} 
+		}
         else if (action.equals("hide")) {
             this.hideKeyBoard();
             return new PluginResult(PluginResult.Status.OK);
@@ -35,5 +35,5 @@ public class SoftKeyBoard extends Plugin {
 		else {
 			return new PluginResult(PluginResult.Status.INVALID_ACTION);
 		}
-	}    
+	}
 }

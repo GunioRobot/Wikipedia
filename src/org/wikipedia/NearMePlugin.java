@@ -9,7 +9,7 @@ import com.phonegap.api.Plugin;
 import com.phonegap.api.PluginResult;
 
 public class NearMePlugin extends Plugin {
-	
+
 	public static int GET_GEONAME_URL = 0;
 	public static int RESULT_OK = 0;
 	private String callbackId;
@@ -26,8 +26,8 @@ public class NearMePlugin extends Plugin {
 		}
 		return result;
 	}
-	
-	
+
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if(requestCode == GET_GEONAME_URL && intent != null) {

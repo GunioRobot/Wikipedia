@@ -1,16 +1,16 @@
 Lawnchair.adapter('webkit-sqlite', (function () {
-    // private methods 
+    // private methods
     var fail = function (e, i) { console.log('error in sqlite adaptor!', e, i) }
     ,   now  = function () { return new Date() } // FIXME need to use better date fn
 	// not entirely sure if this is needed...
     if (!Function.prototype.bind) {
         Function.prototype.bind = function( obj ) {
             var slice = [].slice
-            ,   args  = slice.call(arguments, 1) 
+            ,   args  = slice.call(arguments, 1)
             ,   self  = this
-            ,   nop   = function () {} 
+            ,   nop   = function () {}
             ,   bound = function () {
-                    return self.apply(this instanceof nop ? this : (obj || {}), args.concat(slice.call(arguments))) 
+                    return self.apply(this instanceof nop ? this : (obj || {}), args.concat(slice.call(arguments)))
                 }
             nop.prototype   = self.prototype
             bound.prototype = new nop()
@@ -20,7 +20,7 @@ Lawnchair.adapter('webkit-sqlite', (function () {
 
     // public methods
     return {
-    
+
         valid: function() { return !!(window.openDatabase) },
 
         init: function (options, callback) {
@@ -28,12 +28,12 @@ Lawnchair.adapter('webkit-sqlite', (function () {
             ,   cb     = that.fn(that.name, callback)
             ,   create = "CREATE TABLE IF NOT EXISTS " + this.name + " (id NVARCHAR(32) UNIQUE PRIMARY KEY, value TEXT, timestamp REAL)"
             ,   win    = function(){ return cb.call(that, that); }
-            // open a connection and create the db if it doesn't exist 
+            // open a connection and create the db if it doesn't exist
             this.db = openDatabase(this.name, '1.0.0', this.name, 65536)
-            this.db.transaction(function (t) { 
-                t.executeSql(create, [], win, fail) 
+            this.db.transaction(function (t) {
+                t.executeSql(create, [], win, fail)
             })
-        }, 
+        },
 
         keys:  function (callback) {
             var cb   = this.lambda(callback)
@@ -64,7 +64,7 @@ Lawnchair.adapter('webkit-sqlite', (function () {
             ,   up   = "UPDATE " + this.name + " SET value=?, timestamp=? WHERE id=?"
             ,   win  = function () { if (callback) { obj.key = id; that.lambda(callback).call(that, obj) }}
             ,   val  = [now(), id]
-			// existential 
+			// existential
             that.exists(obj.key, function(exists) {
                 // transactions are like condoms
                 that.db.transaction(function(t) {
@@ -84,11 +84,11 @@ Lawnchair.adapter('webkit-sqlite', (function () {
                 })
             });
             return this
-        }, 
+        },
 
 		// FIXME this should be a batch insert / just getting the test to pass...
         batch: function (objs, cb) {
-			
+
 			var results = []
 			,   done = false
 			,   that = this
@@ -105,9 +105,9 @@ Lawnchair.adapter('webkit-sqlite', (function () {
 				}
 			}, 200)
 
-			for (var i = 0, l = objs.length; i < l; i++) 
+			for (var i = 0, l = objs.length; i < l; i++)
 				this.save(objs[i], updateProgress)
-			
+
             return this
         },
 
@@ -119,7 +119,7 @@ Lawnchair.adapter('webkit-sqlite', (function () {
 				sql = 'SELECT id, value FROM ' + this.name + " WHERE id IN ('" + keyOrArray.join("','") + "')"
 			} else {
 				sql = 'SELECT id, value FROM ' + this.name + " WHERE id = '" + keyOrArray + "'"
-			}	
+			}
 			// FIXME
             // will always loop the results but cleans it up if not a batch return at the end..
 			// in other words, this could be faster
@@ -137,7 +137,7 @@ Lawnchair.adapter('webkit-sqlite', (function () {
 				if (cb) that.lambda(cb).call(that, r)
             }
             this.db.transaction(function(t){ t.executeSql(sql, [], win, fail) })
-            return this 
+            return this
 		},
 
 		exists: function (key, cb) {
@@ -164,8 +164,8 @@ Lawnchair.adapter('webkit-sqlite', (function () {
 				if (cb) cb.call(that, r)
 			}
 
-			this.db.transaction(function (t) { 
-				t.executeSql(all, [], win, fail) 
+			this.db.transaction(function (t) {
+				t.executeSql(all, [], win, fail)
 			})
 			return this
 		},
@@ -187,8 +187,8 @@ Lawnchair.adapter('webkit-sqlite', (function () {
 			var nuke = "DELETE FROM " + this.name
 			,   that = this
 			,   win  = cb ? function() { that.lambda(cb).call(that) } : function(){}
-				this.db.transaction(function (t) { 
-				t.executeSql(nuke, [], win, fail) 
+				this.db.transaction(function (t) {
+				t.executeSql(nuke, [], win, fail)
 			})
 			return this
 		}

@@ -6,7 +6,7 @@ Lawnchair.adapter('window-name', (function(index, store) {
     return {
 
         valid: function () {
-            return typeof window.top.name != 'undefined' 
+            return typeof window.top.name != 'undefined'
         },
 
         init: function (options, callback) {
@@ -25,7 +25,7 @@ Lawnchair.adapter('window-name', (function(index, store) {
             // data[key] = value + ''; // force to string
             // window.top.name = JSON.stringify(data);
             var key = obj.key || this.uuid()
-            if (obj.key) delete obj.key 
+            if (obj.key) delete obj.key
             this.exists(key, function(exists) {
                 if (!exists) index.push(key)
                 store[key] = obj
@@ -48,22 +48,22 @@ Lawnchair.adapter('window-name', (function(index, store) {
             if (cb) this.lambda(cb).call(this, r)
             return this
         },
-        
+
         get: function (keyOrArray, cb) {
             var r;
             if (this.isArray(keyOrArray)) {
                 r = []
                 for (var i = 0, l = keyOrArray.length; i < l; i++) {
-                    r.push(store[keyOrArray[i]]) 
+                    r.push(store[keyOrArray[i]])
                 }
             } else {
                 r = store[keyOrArray]
                 if (r) r.key = keyOrArray
             }
             if (cb) this.lambda(cb).call(this, r)
-            return this 
+            return this
         },
-        
+
         exists: function (key, cb) {
             this.lambda(cb).call(this, !!(store[key]))
             return this
@@ -79,7 +79,7 @@ Lawnchair.adapter('window-name', (function(index, store) {
             this.fn(this.name, cb).call(this, r)
             return this
         },
-        
+
         remove: function (keyOrArray, cb) {
             var del = this.isArray(keyOrArray) ? keyOrArray : [keyOrArray]
             for (var i = 0, l = del.length; i < l; i++) {
@@ -96,7 +96,7 @@ Lawnchair.adapter('window-name', (function(index, store) {
             index = []
             window.top.name = JSON.stringify(data)
             if (cb) this.lambda(cb).call(this)
-            return this 
+            return this
         }
     }
 /////

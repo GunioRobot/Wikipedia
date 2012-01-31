@@ -17,34 +17,34 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
 public class WikiItemizedOverlay extends ItemizedOverlay<OverlayItem> {
-	
+
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
 
 	public WikiItemizedOverlay(Drawable defaultMarker) {
 		super(boundCenterBottom(defaultMarker));
 	}
-	
+
 	public WikiItemizedOverlay(Drawable defaultMarker, Context context) {
 		this(defaultMarker);
 		mContext = context;
 	}
-	
+
 	public void addOverlay(OverlayItem overlay) {
 		mOverlays.add(overlay);
 		populate();
 	}
-	
+
 	@Override
 	protected OverlayItem createItem(int i) {
 		return mOverlays.get(i);
 	}
-	
+
 	@Override
 	public int size() {
 		return mOverlays.size();
 	}
-	
+
 	@Override
 	protected boolean onTap(int index) {
 		// Weirdest thing ever! index is always 0 and mOverlays size is 1
@@ -58,7 +58,7 @@ public class WikiItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 			dialog.setTitle(geoname.getTitle());
 			TextView summary = (TextView) dialog.findViewById(R.id.summary);
 			summary.setText(geoname.getSummary());
-			
+
 			ImageView gotoicon = (ImageView) dialog.findViewById(R.id.gotoicon);
 			gotoicon.setOnClickListener(new OnClickListener() {
 				@Override
@@ -77,7 +77,7 @@ public class WikiItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		} else {
 			Log.d("WikiItemizedOverlay", "Could not find geopoint");
 		}
-		
+
 		return true;
 	}
 

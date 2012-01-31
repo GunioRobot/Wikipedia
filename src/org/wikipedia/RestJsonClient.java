@@ -41,7 +41,7 @@ public class RestJsonClient {
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return null;
-			} 
+			}
 
 			for (int i = 0; i < geonames.length(); i++) {
 				try {

@@ -89,7 +89,7 @@
 })();
 
 /**
- * gears sqlite adaptor 
+ * gears sqlite adaptor
  *
  */
 Lawnchair.extend({
@@ -109,7 +109,7 @@ Lawnchair.extend({
 		var insert = function(obj, callback) {
 			var id = (obj.key == undefined) ? that.uuid() : obj.key;
 			delete(obj.key);
-	
+
 			var rs = that.db.execute(
 				"INSERT INTO " + that.table + " (id, value, timestamp) VALUES (?,?,?)",
 				[id, that.serialize(obj), that.now()]
@@ -119,7 +119,7 @@ Lawnchair.extend({
 				callback(obj);
 			}
 		};
-	
+
 		var update = function(id, obj, callback) {
 			that.db.execute(
 				"UPDATE " + that.table + " SET value=?, timestamp=? WHERE id=?",
@@ -130,13 +130,13 @@ Lawnchair.extend({
 				callback(obj);
 			}
 		};
-	
+
 		if (obj.key == undefined) {
 			insert(obj, callback);
 		} else {
 			this.get(obj.key, function(r) {
 				var isUpdate = (r != null);
-	
+
 				if (isUpdate) {
 					var id = obj.key;
 					delete(obj.key);
@@ -146,11 +146,11 @@ Lawnchair.extend({
 				}
 			});
 		}
-	
+
 	},
 	get:function(key, callback) {
 		var rs = this.db.execute("SELECT * FROM " + this.table + " WHERE id = ?", [key]);
-	
+
 		if (rs.isValidRow()) {
 			// FIXME need to test null return / empty recordset
 			var o = this.deserialize(rs.field(1));
@@ -167,11 +167,11 @@ Lawnchair.extend({
 		var rs	= this.db.execute("SELECT * FROM " + this.table);
 		var r		= [];
 		var o;
-	
+
 		// FIXME need to add 0 len support
 		//if (results.rows.length == 0 ) {
 		//	cb([]);
-	
+
 		while (rs.isValidRow()) {
 			o = this.deserialize(rs.field(1));
 			o.key = rs.field(0);

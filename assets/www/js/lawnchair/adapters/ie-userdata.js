@@ -1,5 +1,5 @@
 /**
- * ie userdata adaptor 
+ * ie userdata adaptor
  *
  */
 Lawnchair.adapter('ie-userdata', {
@@ -17,11 +17,11 @@ Lawnchair.adapter('ie-userdata', {
 	},
 
 	get:function(key, callback){
-		
+
 		var obj = JSON.parse(this.storage.getAttribute(key) || 'null');
 	        if (obj) {
 	            obj.key = key;
-	            
+
 	        }
 			if (callback)
 	                callback(obj);
@@ -29,9 +29,9 @@ Lawnchair.adapter('ie-userdata', {
 
 	save:function(obj, callback){
 		var id = obj.key || 'lc' + this.uuid();
-	        delete obj.key;		
+	        delete obj.key;
 		this.storage.setAttribute(id, JSON.stringify(obj));
-		this.storage.save('lawnchair');		
+		this.storage.save('lawnchair');
 		if (callback){
 			obj.key = id;
 			callback(obj);
@@ -56,20 +56,20 @@ Lawnchair.adapter('ie-userdata', {
 			cb(yar);
 	},
 	remove:function(keyOrObj,callback) {
-		var key = (typeof keyOrObj == 'string') ?  keyOrObj : keyOrObj.key;		
+		var key = (typeof keyOrObj == 'string') ?  keyOrObj : keyOrObj.key;
 		this.storage.removeAttribute(key);
 		this.storage.save('lawnchair');
 		if(callback)
 		  callback();
-	}, 
+	},
 	nuke:function(callback) {
-		var that = this;		  
+		var that = this;
 		this.all(function(r){
 			for (var i = 0, l = r.length; i < l; i++) {
 				if (r[i].key)
 					that.remove(r[i].key);
 			}
-			if(callback) 
+			if(callback)
 				callback();
 		});
 	}

@@ -23,12 +23,12 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class NearMeActivity extends MapActivity {
-	
+
 	private MapView mapView;
 	private ProgressDialog progressDialog;
 	private List<Overlay> mapOverlays;
 	private ArrayList<GeoName> geonames;
-	
+
 	private class UpdateGeonames extends AsyncTask<Double, Void, Integer>{
 		protected Integer doInBackground(Double... gps) {
 			geonames = RestJsonClient.getWikipediaNearbyLocations(gps[0], gps[1]);
@@ -47,7 +47,7 @@ public class NearMeActivity extends MapActivity {
 			progressDialog.dismiss();
 		}
 	}
-	
+
 	public GeoName getGeoName(String title) {
 		Iterator<GeoName> it = geonames.iterator();
 		while(it.hasNext()) {
@@ -57,21 +57,21 @@ public class NearMeActivity extends MapActivity {
 				return geoname;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nearme);
-		
+
 		mapView = (MapView)findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
-		
+
 		mapView.getController().setZoom(13);
-		
+
 		mapOverlays = mapView.getOverlays();
-		
+
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setTitle("Loading");
@@ -79,44 +79,44 @@ public class NearMeActivity extends MapActivity {
         progressDialog.setIndeterminate(true);
 		progressDialog.setMessage("Searching nearby locations...");
 		progressDialog.show();
-		
+
 		final double[] gps = getGPS();
 		Log.d("NearMeActivity", "Latitude: "+gps[0]+" longitude: "+gps[1]);
-		
-		GeoPoint location = new GeoPoint((int)(gps[0] * Math.pow(10, 6)), 
+
+		GeoPoint location = new GeoPoint((int)(gps[0] * Math.pow(10, 6)),
 				  (int)(gps[1] * Math.pow(10, 6)));
-		
+
 		mapView.getController().setCenter(location);
-		
+
 		new UpdateGeonames().execute(gps[0], gps[1]);
-		
+
 		Intent intent = getIntent();
 		if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
 			doMySearch(query);
 		}
 	}
-	
+
 	private void doMySearch(String query) {
-		
+
 	}
-	
+
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
+
 	private WikiItemizedOverlay createItemizedOverlay(GeoName geoname) {
 		Drawable drawable = this.getResources().getDrawable(R.drawable.pin);
 		WikiItemizedOverlay itemizedoverlay = new WikiItemizedOverlay(drawable, this);
-		
-		GeoPoint point = new GeoPoint((int)(geoname.getLatitude() * Math.pow(10, 6)), 
-									  (int)(geoname.getLongitude() * Math.pow(10, 6))); 
+
+		GeoPoint point = new GeoPoint((int)(geoname.getLatitude() * Math.pow(10, 6)),
+									  (int)(geoname.getLongitude() * Math.pow(10, 6)));
 		OverlayItem overlayitem = new OverlayItem(point, geoname.getTitle(), geoname.getSummary());
-//		
+//
 		itemizedoverlay.addOverlay(overlayitem);
 		return itemizedoverlay;
 	}
-	
+
 	private double[] getGPS() {
 		LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 		List<String> providers = lm.getProviders(true);

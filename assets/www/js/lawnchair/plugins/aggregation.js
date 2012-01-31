@@ -1,19 +1,19 @@
 Lawnchair.plugin({
-    
+
     // count of rows in the lawnchair collection with property
     count: function (property, callback) {
         // if only one arg we count the collection
         if ([].slice.call(arguments).length === 1) {
-            callback = property 
+            callback = property
             property = 'key'
-        } 
-        var c = 0 
+        }
+        var c = 0
         this.each(function(e){
             if (e[property]) c++
         })
         this.fn('count', callback).call(this, c)
     },
-    
+
     // adds up property and returns sum
     sum: function (property, callback) {
         var sum = 0
@@ -23,7 +23,7 @@ Lawnchair.plugin({
         this.fn('sum', callback).call(this, sum)
     },
 
-    // averages a property 
+    // averages a property
     avg: function (property, callback) {
         this.sum(property, function (sum) {
             this.count(property, function (count) {

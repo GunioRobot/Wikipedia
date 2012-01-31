@@ -28,20 +28,20 @@ function addBookmarkPrompt() {
 	if (index > 0) {
 		titleToBookmark = titleToBookmark.substring(0, index);
 	}
-	
+
 	var answer = confirm("Add " + titleToBookmark + " to bookmarks?")
-	
-	if (answer) {		
+
+	if (answer) {
 		var bookmarksDB = new Lawnchair({name:"bookmarksDB"}, function() {
-			this.get(titleToBookmark, function(r) {	
-			
+			this.get(titleToBookmark, function(r) {
+
 				if (r == null) {
 					addBookmark(titleToBookmark, urlToBookmark);
 				}else{
 					alert(titleToBookmark + " already exists in bookmarks.");
 				}
 			});
-		});	
+		});
 	}
 }
 
@@ -57,7 +57,7 @@ function getBookmarks() {
 	$('#bookmarksList').html('');
 
 	var bookmarksDB = new Lawnchair({name:"bookmarksDB"}, function() {
-		this.each(function(record, index) {	
+		this.each(function(record, index) {
 			$('#bookmarksList').append(listBookmarks(record, index));
 		});
 	});
@@ -69,8 +69,8 @@ function showBookmarks() {
 	hideOverlayDivs();
 	$('#bookmarks').toggle();
 	hideContent();
-	
-	setActiveState();	
+
+	setActiveState();
 }
 
 function hideBookmarks() {
@@ -86,9 +86,9 @@ function listBookmarks(record, index) {
 	markup += "</a>";
 	markup += "<a class='deleteBookmark deleteButton' href=\"javascript:deleteBookmarkPrompt(\'" + record.key + "\');\"></a>";
 	markup += "</div>";
-	
+
 	return markup;
-	//$('#bookmarksList').append(markup);	
+	//$('#bookmarksList').append(markup);
 }
 
 function onBookmarkItemClicked(url, index) {
@@ -105,7 +105,7 @@ function onBookmarkItemClicked(url, index) {
 
 function deleteBookmarkPrompt(bookmarkKey) {
 	var answer = confirm("Remove " + bookmarkKey + " from bookmarks?")
-	
+
 	if (answer) {
 		deleteBookmark(bookmarkKey);
 	}

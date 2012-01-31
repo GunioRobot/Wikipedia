@@ -1,4 +1,4 @@
-function addToHistory() {	
+function addToHistory() {
 	var title = document.getElementById("main").contentDocument.title;
 	var url = document.getElementById("main").contentWindow.location.href;
 	var index = title.indexOf(" - Wikipedia, the free encyclopedia");
@@ -8,7 +8,7 @@ function addToHistory() {
 	}else{
 		title = "Wikipedia, the free encyclopedia";
 	}
-	
+
 	if (url != "about:blank"){
 		// let's add stuff to the history!
 		isHistoryMaxLimit(title, url);
@@ -21,8 +21,8 @@ function isHistoryMaxLimit(title, url) {
 	var historyDB = new Lawnchair({name:"historyDB"},function() {
 		this.keys(function(records) {
 			if (records.length > MAX_LIMIT) {
-				historyFIFO();	
-			}else{			
+				historyFIFO();
+			}else{
 				var historyDB = new Lawnchair({name:"historyDB"}, function() {
 					this.save({key: title, value: url});
 				});
@@ -42,10 +42,10 @@ function historyFIFO() {
 	});
 }
 
-function getHistory() {	
+function getHistory() {
 
     $('#historyList').html('');
-    
+
 	var historyDB = new Lawnchair({name:"historyDB"}, function() {
 		this.each(function(record, index) {
 			$('#historyList').append(listHistory(record, index));
@@ -62,7 +62,7 @@ function listHistory(record, index) {
 	markup += "<span class='text'>" + record.key + "</span>"
 	markup += "</div>";
 	markup += "</div>";
-	
+
 	return markup;
 }
 
@@ -82,11 +82,11 @@ function onHistoryItemClicked(url) {
 
 function purgeHistory() {
 	var answer = confirm("Remove all of your browsing history?")
-	
+
 	if (answer) {
 		var historyDB = new Lawnchair({name:"historyDB"}, function() { this.nuke() });
 	}
-	
+
 	hideOverlayDivs();
 	showContent();
 }

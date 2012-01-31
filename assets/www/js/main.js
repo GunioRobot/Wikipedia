@@ -16,11 +16,11 @@ function onDeviceReady() {
     $('#content').css('display', 'block');
 
     document.addEventListener("backbutton", onBackButton, false);
-    document.addEventListener("searchbutton", onSearchButton, false); 
-  
+    document.addEventListener("searchbutton", onSearchButton, false);
+
     // this has to be set for the window.history API to work properly
     PhoneGap.UsePolling = true;
-    
+
     loadContent();
     setActiveState();
 }
@@ -38,7 +38,7 @@ function onBackButton() {
         }
     }
 
-    if ($('#bookmarks').css('display') == "block" || $('#history').css('display') == "block" || 
+    if ($('#bookmarks').css('display') == "block" || $('#history').css('display') == "block" ||
         $('#searchresults').css('display') == "block" || $('#settings').css('display') == "block") {
         window.hideOverlayDivs();
         window.showContent();
@@ -92,7 +92,7 @@ function loadContent() {
     // retrieve locale settings from LocalStorage - if it doesn't exist use the defaults!
     var settingsDB = new Lawnchair({name:"settingsDB"}, function() {
         this.get("locale", function(config) {
-        
+
             if (config) {
                 (config.value.url) ? currentLocale.url = config.value.url : currentLocale.url = "http://en.m.wikipedia.org";
                 (config.value.languageCode) ? currentLocale.languageCode = config.value.languageCode : currentLocale.languageCode = "en";
@@ -100,7 +100,7 @@ function loadContent() {
                 currentLocale.url = "http://en.m.wikipedia.org";
                 currentLocale.languageCode = "en";
             }
-            
+
             window.loadWikiContent();
         });
     });
@@ -139,14 +139,14 @@ function showContent() {
     $('#content').show();
 }
 
-function hideContent() {  
+function hideContent() {
     $('#mainHeader').hide();
     $('#content').hide();
 }
 
 function checkLength() {
     var searchTerm = $('#searchParam').val();
-  
+
     if (searchTerm.length > 0) {
         $('#clearSearch').show();
     }else{
@@ -168,8 +168,8 @@ function toggleForward() {
     $('#forwardCmd').attr('disabled', 'false') :
     $('#forwardCmd').attr('disabled', 'true');
 
-    console.log('Forward command disabled '+$('#forwardCmd').attr('disabled')); 
-    window.plugins.SimpleMenu.loadMenu($('#appMenu')[0], 
+    console.log('Forward command disabled '+$('#forwardCmd').attr('disabled'));
+    window.plugins.SimpleMenu.loadMenu($('#appMenu')[0],
                                        function(success) {console.log(success);},
                                        function(error) {console.log(error);});
 }
@@ -179,7 +179,7 @@ function goForward() {
     window.history.go(1);
 }
 
-function hasNetworkConnection() 
+function hasNetworkConnection()
 {
     return navigator.network.connection.type == Connection.NONE ? false : true;
 }
@@ -191,24 +191,24 @@ function setActiveState() {
         '#search',
         '.closeButton'
     ];
-  
+
     for (var key in applicableClasses) {
         applicableClasses[key] += ':not(.activeEnabled)';
     }
     console.log(applicableClasses);
-    
+
     function onTouchEnd() {
         $('.active').removeClass('active');
         $('body').unbind('touchend', onTouchEnd);
         $('body').unbind('touchmove', onTouchEnd);
     }
-  
-    function onTouchStart() {   
+
+    function onTouchStart() {
         $(this).addClass('active');
         $('body').bind('touchend', onTouchEnd);
         $('body').bind('touchmove', onTouchEnd);
     }
-  
+
     setTimeout(function() {
         $(applicableClasses.join(',')).each(function(i) {
             $(this).bind('touchstart', onTouchStart);

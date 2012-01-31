@@ -14,14 +14,14 @@ Lawnchair.adapter('memory', (function(){
 
         save: function(obj, cb) {
             var key = obj.key || this.uuid()
-            
-            if (obj.key) delete obj.key 
-           
+
+            if (obj.key) delete obj.key
+
             this.exists(key, function(exists) {
                 if (!exists) index.push(key)
 
                 storage[key] = obj
-                
+
                 if (cb) {
                     obj.key = key
                     this.lambda(cb).call(this, obj)
@@ -47,14 +47,14 @@ Lawnchair.adapter('memory', (function(){
             if (this.isArray(keyOrArray)) {
                 r = []
                 for (var i = 0, l = keyOrArray.length; i < l; i++) {
-                    r.push(storage[keyOrArray[i]]) 
+                    r.push(storage[keyOrArray[i]])
                 }
             } else {
                 r = storage[keyOrArray]
                 if (r) r.key = keyOrArray
             }
             if (cb) this.lambda(cb).call(this, r)
-            return this 
+            return this
         },
 
         exists: function (key, cb) {
